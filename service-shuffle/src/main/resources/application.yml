@@ -1,0 +1,9 @@
+spring:
+  application:
+    name: service-shuffle
+server:
+  port: 8080
+
+service:
+  log:
+    url: localhost:8081
