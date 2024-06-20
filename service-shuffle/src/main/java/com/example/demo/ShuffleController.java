@@ -1,5 +1,6 @@
 package com.example.demo;
 
+import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -15,7 +16,7 @@ public final class ShuffleController {
     }
 
     @PostMapping("/shuffle")
-    public List<Integer> shuffle(@RequestBody ShuffleNumbersRequest request) {
+    public List<Integer> shuffle(@Valid @RequestBody ShuffleNumbersRequest request) {
         return shuffleService.shuffleArray(request.number());
     }
 }
