@@ -1,8 +1,6 @@
 package com.example.demo;
 
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestTemplate;
 
 import java.util.Collections;
 import java.util.List;
@@ -12,20 +10,17 @@ import static java.util.stream.Collectors.toList;
 
 @Service
 public class ShuffleService {
-    @Value("${service.log.url}")
-    private final String logServiceUrl;
-    private final RestTemplate restTemplate;
+    private final LogClient logClient;
 
-    public ShuffleService(@Value("${service.log.url}") String logServiceUrl) {
-        this.logServiceUrl = logServiceUrl;
-        this.restTemplate = new RestTemplate();
+    public ShuffleService(LogClient logClient) {
+        this.logClient = logClient;
     }
 
-    public List<Integer> shuffleArray(int number) {
-        var numbers = IntStream.rangeClosed(1, number).boxed().collect(toList());
+    public List<Integer> shuffleArray(int maxNumber) {
+        var numbers = IntStream.rangeClosed(1, maxNumber).boxed().collect(toList());
         Collections.shuffle(numbers);
 
-        restTemplate.postForEntity(logServiceUrl + "/log", numbers, Void.class);
+        logClient.log(numbers);
         return numbers;
     }
 }
