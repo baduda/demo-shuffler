@@ -6,7 +6,6 @@ import org.springframework.web.client.RestTemplate;
 
 import java.util.Collections;
 import java.util.List;
-import java.util.concurrent.ForkJoinPool;
 import java.util.stream.IntStream;
 
 import static java.util.stream.Collectors.toList;
@@ -26,8 +25,7 @@ public class ShuffleService {
         var numbers = IntStream.rangeClosed(1, number).boxed().collect(toList());
         Collections.shuffle(numbers);
 
-        ForkJoinPool.commonPool()
-                .execute(() -> restTemplate.postForEntity(logServiceUrl + "/log", numbers, Void.class));
+        restTemplate.postForEntity(logServiceUrl + "/log", numbers, Void.class);
         return numbers;
     }
 }
