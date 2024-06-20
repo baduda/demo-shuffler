@@ -26,9 +26,8 @@ public class ShuffleService {
         var numbers = IntStream.rangeClosed(1, number).boxed().collect(toList());
         Collections.shuffle(numbers);
 
-        try (var async = ForkJoinPool.commonPool()) {
-            async.execute(() -> restTemplate.postForEntity(logServiceUrl + "/log", numbers, Void.class));
-        }
+        ForkJoinPool.commonPool()
+                .execute(() -> restTemplate.postForEntity(logServiceUrl + "/log", numbers, Void.class));
         return numbers;
     }
 }
